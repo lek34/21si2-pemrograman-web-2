@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Hello;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/pertemuan2/hello', [Hello::class, 'index']);
+
+Route::controller(Hello::class)->prefix('/pertemuan2')->group(function() {
+    Route::get('/greet', 'greet');
+    Route::post('/greet', 'post_greet');
 });
