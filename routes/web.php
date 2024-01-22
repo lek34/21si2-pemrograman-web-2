@@ -16,3 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/example-app/hello/{name}', function(string $name) {
+    return "Hello $name";
+});
+
+Route::get('/example-app/hello', function() {
+    return 'Hello World';
+});
