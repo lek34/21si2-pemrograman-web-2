@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+// import CreateBarangRequest untuk digunakan
+use App\Http\Requests\CreateBarangRequest;
 use Illuminate\Http\Request;
 use App\Models\Barang;
 use Illuminate\Support\Facades\Log;
@@ -23,15 +25,16 @@ class BarangController extends Controller
     }
 
     // Create new barang
-    function create(Request $request)
+    // Inject form request validation CreateBarangRequest ke method
+    // create untuk digunakan di method ini
+    function create(CreateBarangRequest $request)
     {
-        // validation
-        // variable $b berisikan data yang sudah valid
-        // jika validation gagal, method validate akan response redirect ke halaman sebelumnya
-        $b = $request->validate([
-            'nama' => 'required|string|min:3|max:50',
-            'harga' => 'required|integer|min:0|max:1000000000'
-        ]);
+        // jalankan validation, jika validation data, laravel akan
+        // menampilkan kembali form request terakhir
+        // variable $errors akan diisikan dengan pesan error dari validation
+        // Jika validasi berhasil, variable $b akan berisikan data request
+        // yang sudah di-validasi dan di-normalize
+        $b = $request->validated();
 
         // mass assign create with validation
         $barang = Barang::create(['nama' => $b['nama'], 'harga' => $b['harga']]);
@@ -53,6 +56,6 @@ class BarangController extends Controller
         $barang->save();*/
 
         // return redirect('/barang');
-        return redirect(to_route('barang.index'));
+        return to_route('barang.index');
     }
 }
