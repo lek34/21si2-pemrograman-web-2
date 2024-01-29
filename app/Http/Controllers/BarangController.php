@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateBarangRequest;
 use Illuminate\Http\Request;
 use App\Models\Barang;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class BarangController extends Controller
@@ -56,6 +57,63 @@ class BarangController extends Controller
         $barang->save();*/
 
         // return redirect('/barang');
+        return to_route('barang.index');
+    }
+
+    function show(int $id)
+    {
+        // findOrFail -> cari berdasarkan primary key, abort(404) jika
+        // tidak ditemukan
+        $barang = Barang::findOrFail($id);
+
+        return view('barang.show', ['barang' => $barang]);
+    }
+
+    function edit(int $id)
+    {
+        $barang = Barang::findOrFail($id);
+
+        return view('barang.edit', ['barang' => $barang]);
+    }
+
+    function update(CreateBarangRequest $request, int $id)
+    {
+        $validated_request = $request->validated();
+
+        // DB::transaction menjalankan operasi transaction database
+        // fungsi ini menerima sebuah callable/anonymous function/closure
+        // yang dijalankan di dalam transaksi.
+        // keyword use digunakan untuk menginject variable dari luar untuk
+        // digunakan di dalam anonymous function
+        // Apabila terjadi exception di dalam transaction, transaksi database
+        // akan di rollback, sebaliknya jika tidak terjadi exception
+        // transaksi akan otomatis di commit ke database
+        DB::transaction(function() use($validated_request, $id) {
+            $barang = Barang::where('id', $id)?->lockForUpdate();
+            if (!$barang) {
+                abort(404);
+            }
+
+            $updated = $barang->update(['nama' => $validated_request['nama'], 'harga' => $validated_request['harga']]);
+            if (!$updated) {
+                abort(500);
+            }
+        });
+
+        return to_route('barang.index');
+    }
+
+    function delete(int $id)
+    {
+        DB::transaction(function() use($id) {
+            $barang = Barang::findOrFail($id);
+
+            $deleted = $barang->delete();
+            if (!$deleted) {
+                abort(500);
+            }
+        });
+
         return to_route('barang.index');
     }
 }

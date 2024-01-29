@@ -1,14 +1,14 @@
 <div>
-    <h1>New Barang</h1>
-    <form method="post" action="/barang">
+    <h1>Edit Barang</h1>
+    <form method="post" action="{{ route('barang.update', [ 'id' => $barang->id ]) }}">
         @csrf
         <div>
             <label>Nama</label>
-            <input type="text" name="nama" value="{{ old('nama') }}"/>
+            <input type="text" name="nama" value="{{ old('nama') ?? $barang->nama }}"/>
         </div>
         <div>
             <label>Harga</label>
-            <input type="text" name="harga" value="{{ old('harga') }}" />
+            <input type="text" name="harga" value="{{ old('harga') ?? $barang->harga }}" />
         </div>
         <div>
             <input type="submit" value="Simpan" />
