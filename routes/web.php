@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BarangController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,18 +13,14 @@ use App\Http\Controllers\BarangController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'welcome');
 
-Route::controller(BarangController::class)->prefix('/barang')
-                                          ->name('barang.')
-                                          ->group(function() {
-    Route::get('/', 'index')->name('index'); // list barang
-    Route::get('/new', 'new')->name('new'); // tampil form new barang
-    Route::post('/', 'create')->name('create'); // handle logic create barang
-    Route::get('/{id}', 'show')->name('show'); // handle show barang detail
-    Route::get('/edit/{id}', 'edit')->name('edit');
-    Route::post('/{id}', 'update')->name('update');
-    Route::get('/delete/{id}', 'delete')->name('delete');
-});
+Route::view('dashboard', 'dashboard')
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
+
+Route::view('profile', 'profile')
+    ->middleware(['auth'])
+    ->name('profile');
+
+require __DIR__.'/auth.php';
