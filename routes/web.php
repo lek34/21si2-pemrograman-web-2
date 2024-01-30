@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BarangController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,3 +25,15 @@ Route::view('profile', 'profile')
     ->name('profile');
 
 require __DIR__.'/auth.php';
+
+Route::controller(BarangController::class)->prefix('/barang')
+                                          ->name('barang.')
+                                          ->group(function() {
+    Route::get('/', 'index')->name('index');
+    Route::get('/new', 'new')->name('new');
+    Route::post('/', 'create')->name('create');
+    Route::get('/{id}', 'show')->name('show');
+    Route::get('/edit/{id}', 'edit')->name('edit');
+    Route::post('/edit/{id}', 'update')->name('update');
+    Route::get('/delete/{id}', 'delete')->name('delete');
+});

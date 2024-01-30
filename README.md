@@ -132,3 +132,28 @@ Untuk bisa menjalankan tools frontend ini, kita membutuhkan:
 
 Menjalankan server frontend development: `npm run dev`.
 Untuk mendeploy aplikasi frontend di-production, `run run build`.
+
+# Component Based UI
+
+Kita akan menggunakan component Blade untuk membangun dan me-reuse tampilan UI.
+Baca `https://laravel.com/docs/10.x/blade#components` dan `https://laravel.com/docs/10.x/blade#building-layouts`.
+
+Aplikasi web yang kita bangun akan dibungkus pada component `BaseApp` yang mendefinisikan Tag HTML, CSS dan Javascript
+yang dibutuhkan oleh seluruh halaman web di aplikasi kita.
+
+`php artisan make:component BaseApp`
+
+Perintah ini akan membentuk 2 file, `app/View/Components/BaseApp.php` dan `resources/views/components/base-app.balde.php`.
+
+`app/View/Component/BaseApp.php` adalah Component yang akan merender view dan `resources/views/components/base-app.php` adalah
+template Blade yang akan dirender.
+
+Ubah `resources/views/components/base-app.php` untuk mendefinisikan tampilan UI yang akan digunakan oleh seluruh halaman lain.
+
+Laravel akan meng-load seluruh component di `app/View/` dan `resources/components`.
+Komponen yang dibuat akan bisa digunakan menggunakan tag `<x-base-app>` sesuai dengan format `<x-{nama-komponen-kebab-case}>`
+
+Edit view `resources/views/barang/index.blade.php`, bungkus view kita dengan `<x-base-app>`.
+Jangan lupa untuk mengupdate `routes/web.php` yang telah di-_overwrite_ oleh Breeze.
+
+Supaya script Javascript dan CSS dibuild setiap kita melukan perubahan di-view, jalankan `npm run dev`.
