@@ -103,3 +103,32 @@ Perubahan pada routes:
 
 Jika ingin men-_disable_ fitur terkait authentication, ubah pada `routes/auth.php`, misalnya untuk men-_disable_
 register user.
+
+# Frontend Application
+
+Pengembangan pada sisi _frontend_ dilakukan dengan menggunakan HTML, CSS dan Javascript. Breeze menyediakan
+beberapa tools yang digunakan untuk pengembangan _frontend_.
+
+1. [Livewire](https://laravel-livewire.com/)
+   Fullstack framework untuk menghubungkan logic di sisi backend dan logic di sisi frontend. Livewire mirip dengan React/Vue.
+
+2. [AlpineJs](https://alpinejs.dev/)
+   Framework Javascript untuk meng-compose logic langsung pada HTML markup. AlpineJs digunakan oleh Livewire untuk melakukan
+   binding dan proses lainnya.
+
+3. [Tailwind](https://tailwindcss.com/)
+   Framework CSS untuk men-style tampilan web.
+
+4. [Vite](https://vitejs.dev/)
+   Frontend tooling, digunakan sebagai build tool memproses Javascript dan CSS untuk kemudian di serve oleh Laravel sebagai response.
+
+Untuk bisa menjalankan tools frontend ini, kita membutuhkan:
+
+1. [NodeJS](https://nodejs.org/en)
+   Javascript environment untuk menjalankan script Javascript pada server (vs dijalankan di sisi client/browser).
+
+2. [NPM](https://www.npmjs.com/)
+   Package manager untuk NodeJS, digunakan untuk memasang dependency Javascript (mirip dengan Composer untuk PHP).
+
+Menjalankan server frontend development: `npm run dev`.
+Untuk mendeploy aplikasi frontend di-production, `run run build`.
