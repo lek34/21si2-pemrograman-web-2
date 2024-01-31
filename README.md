@@ -1,3 +1,48 @@
+# Menjalankan aplikasi web
+
+Clone repository ini, kemudian checkout ke branch yang diinginkan (check di github untuk melihat daftar branch).
+Contoh:
+
+Clone
+
+```
+git clone git@github.com:des-learning/21si2-pemrograman-web-2.git
+```
+
+Checkout ke branch yang diinginkan:
+
+```
+ git checkout 05-using-breeze-starter-kit # sesuaikan dengan nama branch yang diingikan
+```
+
+Kemudian jalankan langkah-langkah berikut:
+
+1. Jika konfigurasi belum ada (file `.env`), copy file `.env.example` ke `.env`, lakukan perubahan jika diperlukan
+   terutama untuk konfigurasi DB. Contoh untuk konfigurasi DB menggunakan sqlite.
+
+```
+DB_CONNECTION=sqlite
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=/tmp/21si2-pemrograman-web-2/database/db.sqlite # sesuaikan dengan lokasi file database (path absolute)
+DB_USERNAME=root
+DB_PASSWORD=
+DB_FOREIGN_KEYS=true
+```
+
+2. Install dependency, `composer install` dan `npm install`
+
+3. Jalankan migration, `php artisan migrate` pada step ini seharusnya database sudah selesai dikonfigurasi
+
+4. Jalankan `php artisan key:generate` untuk mengenerate secret key aplikasi Laravel
+
+5. Jalankan `php artisan serve` untuk menghidupkan server web untuk meng-serve aplikasi Laravel
+
+6. Buka satu terminal baru, jalankan `npm run dev` untuk menjalankan tools npm untuk melakukan _post processing_ selama
+   proses development (ini supaya CSS dan JS akan digenerate ulang setiap kita melakukan perubahan).
+
+7. Dari browser buka `http://localhost:8000` atau `http://127.0.0.1:8000` untuk mengakses aplikasi Laravel
+
 # Form Request Validation
 
 Selain mendefinisikan rule validasi pada controller langsung, kita bisa membuat request Validation.
