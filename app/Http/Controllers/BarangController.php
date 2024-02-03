@@ -22,7 +22,7 @@ class BarangController extends Controller
     // Form new barang
     function new()
     {
-        return view('barang.new');
+        return view('barang.new', ['barang' => new Barang]);
     }
 
     // Create new barang
