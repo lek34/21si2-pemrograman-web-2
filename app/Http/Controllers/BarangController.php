@@ -14,7 +14,9 @@ class BarangController extends Controller
     // List Barang
     function index()
     {
-        $barangs = Barang::all();
+        // NOTE: scoped query, hanya tampilkan seluruh barang dari
+        // user bersangkutan
+        $barangs = Barang::owned()->get();
 
         return view('barang.index', ['barangs' => $barangs]);
     }
@@ -78,7 +80,7 @@ class BarangController extends Controller
     {
         // findOrFail -> cari berdasarkan primary key, abort(404) jika
         // tidak ditemukan
-        $barang = Barang::findOrFail($id);
+        $barang = Barang::owned()->findOrFail($id);
 
         return view('barang.show', ['barang' => $barang]);
     }

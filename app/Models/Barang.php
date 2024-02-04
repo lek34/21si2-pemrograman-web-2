@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
 
 class Barang extends Model
 {
@@ -14,6 +16,17 @@ class Barang extends Model
     // daftarkan created_by dan updated_by supaya bisa diisikan
     // dengan user id
     protected $fillable = ['nama', 'harga', 'created_by', 'updated_by'];
+
+    // NOTE: query scope, digunakan untuk mengapply kriteria tertentu
+    // ketika melakukan query
+    // https://laravel.com/docs/10.x/eloquent#query-scopes
+    // dengan menggunakan scope, kita dapat melakukan query seperti
+    // Barang::owned() untuk meng-query seluruh data barang yang
+    // di-created oleh user yang melakukan request
+    function scopeOwned(Builder $query)
+    {
+        $query->where('created_by', Auth::id());
+    }
 
     // Relationship https://laravel.com/docs/10.x/eloquent-relationships
     // disini kita mendefinisikan sebuah relasi ke dari barang ke user
