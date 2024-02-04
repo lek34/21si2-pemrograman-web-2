@@ -32,6 +32,9 @@ class BarangController extends Controller
     // create untuk digunakan di method ini
     function create(CreateBarangRequest $request)
     {
+        // check apakah authenticated user bisa membuat barang
+        $this->authorize('create', Barang::class);
+
         // jalankan validation, jika validation data, laravel akan
         // menampilkan kembali form request terakhir
         // variable $errors akan diisikan dengan pesan error dari validation
@@ -87,13 +90,17 @@ class BarangController extends Controller
 
     function edit(int $id)
     {
-        $barang = Barang::findOrFail($id);
+        $barang = Barang::owned()->findOrFail($id);
 
         return view('barang.edit', ['barang' => $barang]);
     }
 
     function update(CreateBarangRequest $request, int $id)
     {
+        // check apakah authenticated user bisa mengedit barang
+        $existingBarang = Barang::owned()->findOrFail($id);
+        $this->authorize('update', $existingBarang);
+
         $validated_request = $request->validated();
 
         // DB::transaction menjalankan operasi transaction database
@@ -105,7 +112,7 @@ class BarangController extends Controller
         // akan di rollback, sebaliknya jika tidak terjadi exception
         // transaksi akan otomatis di commit ke database
         DB::transaction(function() use($validated_request, $id) {
-            $barang = Barang::where('id', $id)?->lockForUpdate();
+            $barang = Barang::owned()->where('id', $id)?->lockForUpdate();
             if (!$barang) {
                 abort(404);
             }
@@ -125,6 +132,10 @@ class BarangController extends Controller
 
     function delete(int $id)
     {
+        // check apakah authenticated user dapat menghapus barang
+        $existingBarang = Barang::owned()->findOrFail($id);
+        $this->authorize('delete', $existingBarang);
+
         DB::transaction(function() use($id) {
             $barang = Barang::findOrFail($id);
 
