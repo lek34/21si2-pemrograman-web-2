@@ -6,8 +6,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateBarangRequest;
 use Illuminate\Http\Request;
 use App\Models\Barang;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class BarangController extends Controller
 {
@@ -37,12 +37,26 @@ class BarangController extends Controller
         // yang sudah di-validasi dan di-normalize
         $b = $request->validated();
 
-        // mass assign create with validation
-        $barang = Barang::create(['nama' => $b['nama'], 'harga' => $b['harga']]);
-        if (!$barang) {
-            // abort dengan response HTTP 500 jika gagal membuat record barang
-            abort(500);
-        }
+        DB::transaction(function() use($b) {
+            // mass assign create with validation
+            $barang = Barang::create([
+                'nama' => $b['nama'],
+                'harga' => $b['harga'],
+            ]);
+
+            // NOTE: untuk relasi belongs to kita dapat
+            // menggunakan menthod associate untuk mengisi relasi
+            // dengan object yang diingin direlasikan
+            $barang->createdBy()->associate(Auth::user());
+            $barang->updatedBy()->associate(Auth::user());
+            // NOTE: simpan ulang barang yang dibuat dengan info created_by dan updated_by
+            $barang->save();
+
+            if (!$barang) {
+                // abort dengan response HTTP 500 jika gagal membuat record barang
+                abort(500);
+            }
+        });
 
         // mass assign create without validation
         /*$barang = Barang::create([
@@ -94,7 +108,11 @@ class BarangController extends Controller
                 abort(404);
             }
 
-            $updated = $barang->update(['nama' => $validated_request['nama'], 'harga' => $validated_request['harga']]);
+            $updated = $barang->update([
+                'nama' => $validated_request['nama'],
+                'harga' => $validated_request['harga'],
+                'updated_by' => Auth::id(),
+            ]);
             if (!$updated) {
                 abort(500);
             }
