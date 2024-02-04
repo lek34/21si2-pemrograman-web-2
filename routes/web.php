@@ -26,14 +26,27 @@ Route::view('profile', 'profile')
 
 require __DIR__.'/auth.php';
 
-Route::controller(BarangController::class)->prefix('/barang')
-                                          ->name('barang.')
-                                          ->group(function() {
-    Route::get('/', 'index')->name('index');
-    Route::get('/new', 'new')->name('new');
-    Route::post('/', 'create')->name('create');
-    Route::get('/{id}', 'show')->name('show');
-    Route::get('/edit/{id}', 'edit')->name('edit');
-    Route::post('/edit/{id}', 'update')->name('update');
-    Route::get('/delete/{id}', 'delete')->name('delete');
+// routing untuk admin barang
+function adminBarangRoutes()
+{
+    Route::controller(BarangController::class)->prefix('/barang')
+                                              ->name('barang.')
+                                              ->group(function() {
+        Route::get('/', 'index')->name('index');
+        Route::get('/new', 'new')->name('new');
+        Route::post('/', 'create')->name('create');
+        Route::get('/{id}', 'show')->name('show');
+        Route::get('/edit/{id}', 'edit')->name('edit');
+        Route::post('/edit/{id}', 'update')->name('update');
+        Route::get('/delete/{id}', 'delete')->name('delete');
+    });
+}
+
+// proteksi route dengan middlware auth
+// https://laravel.com/docs/10.x/authentication#protecting-routes
+Route::middleware('auth')->group(function() {
+    // route barang sekarang berada di bawah route /admin
+    Route::prefix('/admin')->name('admin.')->group(function() {
+        adminBarangRoutes();
+    });
 });

@@ -15,7 +15,7 @@ class Delete extends Component
      */
     public function __construct(public Barang $barang)
     {
-        $this->action = route('barang.delete', ['id' => $barang->id]);
+        $this->action = route('admin.barang.delete', ['id' => $barang->id]);
     }
 
     /**

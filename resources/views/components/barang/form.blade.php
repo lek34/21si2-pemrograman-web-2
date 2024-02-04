@@ -12,7 +12,7 @@
     </div>
     <div>
         <input type="submit" value="Simpan" class="border-blue-500 border bg-blue-500 text-white font-semibold p-2" />
-        <a href="{{ route('barang.index') }}"><input type="button" value="Batal" class="border-blue-500 border text-blue-500 font-semibold p-2" /></a>
+        <a href="{{ route('admin.barang.index') }}"><input type="button" value="Batal" class="border-blue-500 border text-blue-500 font-semibold p-2" /></a>
     </div>
     <x-error error-field="_base" />
 </form>

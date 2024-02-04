@@ -57,7 +57,7 @@ class BarangController extends Controller
         $barang->save();*/
 
         // return redirect('/barang');
-        return to_route('barang.index');
+        return to_route('admin.barang.index');
     }
 
     function show(int $id)
@@ -100,7 +100,7 @@ class BarangController extends Controller
             }
         });
 
-        return to_route('barang.index');
+        return to_route('admin.barang.index');
     }
 
     function delete(int $id)
@@ -114,6 +114,6 @@ class BarangController extends Controller
             }
         });
 
-        return to_route('barang.index');
+        return to_route('admin.barang.index');
     }
 }
