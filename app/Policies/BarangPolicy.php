@@ -32,6 +32,14 @@ class BarangPolicy
         return true;
     }
 
+    public function show(User $user, Barang $barang)
+    {
+        return collect([$barang->created_by, $barang->updated_by])
+            ->contains(fn($key, $value) => $value === $user->id)
+        ? Response::allow()
+        : Response::deny('Only creator/updater can show barang detail');
+    }
+
     // NOTE: policy untuk mengupdate barang existing
     // pada contoh ini hanya barang yang di-create oleh user yang
     // sama yang dapat mengupdate data barang
