@@ -37,6 +37,9 @@
                 @endforeach
                 </div>
             </div>
+            <div class="mt-2">
+            {{ $barangs->links() }}
+            </div>
         </div>
     </div>
 </x-app-layout>

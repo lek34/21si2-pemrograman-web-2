@@ -16,7 +16,15 @@ class BarangController extends Controller
     {
         // NOTE: scoped query, hanya tampilkan seluruh barang dari
         // user bersangkutan
-        $barangs = Barang::owned()->get();
+        //
+        // NOTE: orderBy mengurutkan data berdasarkan column/field id (asc)
+        // https://laravel.com/docs/10.x/queries#ordering-grouping-limit-and-offset
+        //
+        // NOTE: paginate menghasilkan result data yang dipaginasi
+        // https://laravel.com/docs/10.x/pagination
+        // ada dua jenis pagination yang bisa dihasilkan langsung oleh Laravel
+        // limit offset pagination & cursor pagination
+        $barangs = Barang::owned()->orderBy('id')->paginate(5);
 
         return view('barang.index', ['barangs' => $barangs]);
     }
