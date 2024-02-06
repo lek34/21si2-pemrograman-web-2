@@ -7,18 +7,24 @@
 
     <div class="py-12 overflow-auto">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <x-link :href="route('admin.barang.index')">Back</x-link>
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6 flex flex-col gap-y-2">
+                <form method="get" action="{{ route('admin.barang.index') }}">
+                    <x-secondary-button type="submit">Back</x-secondary-button>
+                </form>
 
                 <div class="border-blue-300 border p-2 flex flex-row justify-between">
                     <x-barang.card :barang="$barang" />
                     <div class="flex flex-row gap-x-2">
                         @can('update', $barang)
-                        <x-link :href="route('admin.barang.edit', ['id' => $barang->id])">Edit</x-link>
+                        <form method="get" action="{{ route('admin.barang.edit', ['id' => $barang->id]) }}">
+                            <x-secondary-button type="submit">Edit</x-secondary-button>
+                        </form>
                         @endcan
 
                         @can('delete', $barang)
-                        <x-barang.delete :barang="$barang" />
+                        <div class="text-sm">
+                            <x-barang.delete :barang="$barang" />
+                        </div>
                         @endcan
                     </div>
                 </div>

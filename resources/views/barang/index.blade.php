@@ -7,10 +7,12 @@
 
     <div class="py-12 overflow-auto">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6 flex flex-col gap-y-2">
                 <!-- check policy create barang -->
                 @can('create', App\Models\Barang::class)
-                <x-link :href="route('admin.barang.new')">New Barang</x-link>
+                <form method="get" action="{{ route('admin.barang.new') }}">
+                    <x-primary-button>New Barang</x-primary-button>
+                </form>
                 @endcan
 
                 <div class="flex flex-col gap-y-2">
@@ -20,17 +22,23 @@
                         <div class="flex flex-row gap-x-2">
                             <!-- check policy show barang -->
                             @can('show', $barang)
-                            <x-link :href="route('admin.barang.show', ['id' => $barang->id])">Show</x-link>
+                            <form method="get" action="{{ route('admin.barang.show', ['id' => $barang->id]) }}">
+                                <x-secondary-button type="submit">Show</x-secondary-button>
+                            </form>
                             @endcan
 
                             <!-- check policy update Barang -->
                             @can('update', $barang)
-                            <x-link :href="route('admin.barang.edit', ['id' => $barang->id])">Edit</x-link>
+                            <form method="get" action="{{ route('admin.barang.edit', ['id' => $barang->id]) }}">
+                                <x-secondary-button type="submit">Edit</x-secondary-button>
+                            </form>
                             @endcan
 
                             <!-- check policy delete barang -->
                             @can('delete', $barang)
+                            <div class="text-sm">
                             <x-barang.delete :barang="$barang" />
+                            </div>
                             @endcan
                         </div>
                     </div>
