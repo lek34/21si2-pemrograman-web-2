@@ -18,6 +18,10 @@ jobs:
 
       - name: Prepare laravel application
         run: php artisan --env=testing key:generate
+        env:
+          DB_DATABASE: ${GITHUB_WORKSPACE}/database/testing.sqlite
 
       - name: Run Test
         run: php artisan test --env=testing --filter BarangTest
+        env:
+          DB_DATABASE: ${GITHUB_WORKSPACE}/database/testing.sqlite
