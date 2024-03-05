@@ -16,6 +16,11 @@ jobs:
       - name: Run composer
         run: composer install -n --prefer-dist
 
+      - name: Create database file
+        run: |
+          touch ${GITHUB_WORKSPACE}/database/testing.sqlite
+          ls ${GITHUB_WORKSPACE}/database
+
       - name: Prepare laravel application
         run: php artisan --env=testing key:generate
         env:
