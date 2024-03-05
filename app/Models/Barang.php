@@ -48,4 +48,9 @@ class Barang extends Model
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
+
+    static function normalizeNamaBarang(string $nama): string
+    {
+        return ucwords($nama);
+    }
 }
