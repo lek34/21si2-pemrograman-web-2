@@ -17,7 +17,7 @@ jobs:
         run: composer install -n --prefer-dist
 
       - name: Prepare laravel application
-        run: php artisan key:generate
+        run: php artisan --env=testing key:generate
 
       - name: Run Test
         run: php artisan test --env=testing --filter BarangTest
